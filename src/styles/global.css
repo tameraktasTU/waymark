@@ -1,0 +1,124 @@
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/outfit";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans Variable", sans-serif;
+  --font-display: "Outfit Variable", sans-serif;
+  --color-ink: #213c35;
+  --color-studio: #edf2f3;
+  --color-evergreen: #17675c;
+  --color-muted: #63766b;
+  --text-caption: 0.75rem;
+  --text-label: 0.8125rem;
+  --text-control: 0.875rem;
+  --text-body: 1rem;
+}
+
+/* Preserve the studio's existing inclusive responsive boundaries. */
+@custom-variant wide (@media (min-width: 1500px));
+@custom-variant tablet (@media (max-width: 1050px));
+@custom-variant mobile (@media (max-width: 760px));
+@custom-variant narrow (@media (max-width: 600px));
+@custom-variant small (@media (max-width: 400px));
+
+/* The preview and export engine share these locally served print fonts. */
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: #f8fafb;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+  button,
+  a,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    cursor: pointer;
+    transition:
+      background 0.16s ease,
+      border-color 0.16s ease,
+      color 0.16s ease;
+  }
+  button:disabled {
+    cursor: wait;
+    opacity: 0.62;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--color-evergreen);
+    outline-offset: 3px;
+  }
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+/* Small map illustrations are clearer here than as long pseudo-element utilities. */
+.thumbnail-map::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 7px;
+  background: #f8fbf8;
+  top: 45%;
+  left: -20%;
+  transform: rotate(-33deg);
+}
+
+.thumbnail-map::after {
+  content: "";
+  position: absolute;
+  width: 18%;
+  height: 100%;
+  background: #c4d9df;
+  top: 0;
+  left: 70%;
+  transform: rotate(14deg);
+}
+
+.preview-stage {
+  background-image: radial-gradient(#cdd7d8 0.7px, transparent 0.7px);
+  background-size: 14px 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

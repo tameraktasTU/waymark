@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Waymark browser QA" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>London riverside run</name>
+    <trkseg>
+      <trkpt lat="51.5033" lon="-0.1195"><ele>12</ele><time>2026-08-16T08:00:00Z</time></trkpt>
+      <trkpt lat="51.5072" lon="-0.1148"><ele>14</ele><time>2026-08-16T08:05:00Z</time></trkpt>
+      <trkpt lat="51.5096" lon="-0.1059"><ele>18</ele><time>2026-08-16T08:10:00Z</time></trkpt>
+      <trkpt lat="51.5107" lon="-0.0968"><ele>15</ele><time>2026-08-16T08:15:00Z</time></trkpt>
+      <trkpt lat="51.5077" lon="-0.0877"><ele>17</ele><time>2026-08-16T08:20:00Z</time></trkpt>
+      <trkpt lat="51.5045" lon="-0.0904"><ele>13</ele><time>2026-08-16T08:25:00Z</time></trkpt>
+      <trkpt lat="51.5060" lon="-0.1035"><ele>16</ele><time>2026-08-16T08:30:00Z</time></trkpt>
+      <trkpt lat="51.5041" lon="-0.1137"><ele>12</ele><time>2026-08-16T08:35:00Z</time></trkpt>
+      <trkpt lat="51.5033" lon="-0.1195"><ele>12</ele><time>2026-08-16T08:40:00Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
