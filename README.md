@@ -2,6 +2,8 @@
 
 Turn a GPX route into a personal map print or an image to share. Waymark is a browser-based studio built with React, TypeScript, Vite, Tailwind CSS, MapLibre GL JS, and pdf-lib.
 
+![Waymark desktop studio with GPX import controls, a live Berlin route preview, paper sizes, and print export settings](docs/screenshots/studio-print.png)
+
 ## Features
 
 - Import a GPX file or try the built-in Berlin example.
@@ -11,6 +13,22 @@ Turn a GPX route into a personal map print or an image to share. Waymark is a br
 - Export a print-ready PNG or PDF, or a PNG sized for sharing.
 
 No account, API key, database, or application backend is required.
+
+## Screenshots
+
+**Design your print.** Choose a poster layout and palette, then refine the map colors, route line, and markers. Shown here: Gallery with the Coastal palette.
+
+![Waymark Design tab showing three poster layouts, four palettes, custom colors, and a Coastal Gallery print](docs/screenshots/studio-design.png)
+
+**Create an image to share.** Edit your captions and statistics while previewing the selected format. Shown here: a 1920 × 1080 Wide image with the Minimal layout and Midnight palette.
+
+![Waymark Details tab beside a wide Midnight route image, sharing formats, and PNG download controls](docs/screenshots/studio-share.png)
+
+**Compose on mobile.** The route upload and live preview sit above the editor controls on smaller screens.
+
+<p align="center">
+  <img src="docs/screenshots/studio-mobile.png" width="390" alt="Waymark at a 390-pixel mobile width, with GPX upload, print sizes, and the complete Berlin poster preview">
+</p>
 
 ## Run locally
 
@@ -31,6 +49,7 @@ Open the local URL printed by Vite, usually `http://localhost:5173`.
 | `npm run build` | Build the static website into `dist/` |
 | `npm run preview` | Preview the production build locally |
 | `npm run test:browser` | Run the browser integration checks |
+| `npm run screenshots:readme` | Refresh the screenshots used in this README |
 
 ## Create a print or sharing image
 
@@ -81,6 +100,16 @@ Set `QA_BASE_URL` to use a different server URL; the default is `http://127.0.0.
 
 The browser suite covers file validation and import, editing, map styling, responsive layouts down to 320 px, and PNG/PDF downloads. It writes screenshots, exports, and reports to the ignored `test-results/` directory.
 
+### Refresh README screenshots
+
+With the development server running and Playwright's Chromium installed, run:
+
+```sh
+npm run screenshots:readme
+```
+
+The script captures the built-in Berlin example at desktop and mobile widths, using a 2× pixel density for sharp text. It waits for fonts and real map tiles, checks for map errors and horizontal overflow, and saves four PNGs in `docs/screenshots/`. Commit these images with the README. The script also supports `QA_BASE_URL` and `QA_BROWSER_CHANNEL` as described above.
+
 ## Project structure
 
 - `src/components/`: editor controls, information dialog, and interactive poster preview.
@@ -89,6 +118,8 @@ The browser suite covers file validation and import, editing, map styling, respo
 - `public/`: favicon and locally served print fonts.
 - `tests/fixtures/`: synthetic GPX files for automated tests.
 - `scripts/browser-qa.mjs`: browser integration checks.
+- `scripts/readme-screenshots.mjs`: reproducible README screenshot capture.
+- `docs/screenshots/`: committed screenshots displayed in this README.
 - `.github/workflows/ci.yml`: automated TypeScript, unit-test, and build checks.
 
 ## Deployment
