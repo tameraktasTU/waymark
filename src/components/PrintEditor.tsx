@@ -784,7 +784,7 @@ export default function PrintEditor() {
                   </span>
                 </div>
               </div>
-              <div className="preview-footnote grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-5.75 py-3.5 font-sans text-caption font-normal text-muted tablet:px-4.25 mobile:py-2.75 narrow:grid-cols-2 small:gap-x-3 small:px-3.25">
+              <div className="preview-footnote grid grid-cols-2 items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-5.75 py-3.5 font-sans text-caption font-normal text-muted tablet:px-4.25 mobile:py-2.75 small:gap-x-3 small:px-3.25">
                 <span className="flex items-center gap-1.5">
                   <Layers3 size={14} />
                   {sharing
@@ -793,9 +793,6 @@ export default function PrintEditor() {
                       : "Sized for sharing. Ready for your feed."
                     : "Designed to look as good on paper."}
                 </span>
-                <h2 className="m-0 text-center narrow:col-span-2 narrow:row-start-1">
-                  Your Route
-                </h2>
                 <button
                   type="button"
                   className="how-button inline-flex min-h-9 items-center gap-1.5 justify-self-end border-0 bg-transparent p-0 text-left hover:text-evergreen"
