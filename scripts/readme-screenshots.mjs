@@ -39,6 +39,8 @@ async function waitForArtwork(page) {
 
 async function capture(page, filename, { endAtPreview = false } = {}) {
   await waitForArtwork(page);
+  await page.getByRole('button', { name: 'Fit route', exact: true }).click();
+  await waitForArtwork(page);
   assert.equal(await page.getByRole('alert').count(), 0, 'Screenshot must have no error notices');
   const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
   assert.equal(hasOverflow, false, 'Screenshot must have no horizontal overflow');
