@@ -714,7 +714,7 @@ export default function PrintEditor() {
             </div>
           </aside>
 
-          <div className="preview-column sticky top-5 min-w-0 mobile:static mobile:order-[-1] mobile:w-full">
+          <div className="preview-column @container sticky top-5 min-w-0 mobile:static mobile:order-[-1] mobile:w-full">
             <div className="preview-panel overflow-hidden rounded-xl border border-[#e0e6e6] bg-white">
               <FormatControls
                 settings={settings}
@@ -808,7 +808,7 @@ export default function PrintEditor() {
               </div>
             </div>
 
-            <div className="studio-promises grid grid-cols-2 gap-6 px-5 pt-[25px] pb-3 tablet:gap-[13px] tablet:px-2.5 mobile:pt-[17px] mobile:pb-0 small:gap-3 small:px-[3px] [&>div]:flex [&>div]:items-start [&>div]:gap-2.5 small:[&>div]:gap-[7px] [&>div>svg]:mt-px [&>div>svg]:text-[#799888] small:[&>div>svg]:w-4 [&_strong]:block [&_strong]:text-caption [&_strong]:font-medium [&_strong]:text-muted [&_span>span]:mt-1.5 [&_span>span]:block [&_span>span]:text-caption [&_span>span]:leading-[1.6] [&_span>span]:text-muted">
+            <div className="studio-promises grid grid-cols-1 gap-6 px-5 pt-[25px] pb-3 @[560px]:flex @[560px]:justify-between tablet:gap-[13px] tablet:px-2.5 mobile:pt-[17px] mobile:pb-0 small:gap-3 small:px-[3px] [&>div]:flex [&>div]:min-w-0 [&>div]:items-start [&>div]:gap-2.5 small:[&>div]:gap-[7px] [&>div>svg]:mt-px [&>div>svg]:text-[#799888] small:[&>div>svg]:w-4 [&_strong]:block [&_strong]:text-caption [&_strong]:font-medium [&_strong]:text-muted [&_span>span]:mt-1.5 [&_span>span]:block [&_span>span]:text-caption [&_span>span]:leading-[1.6] [&_span>span]:text-muted">
               <div>
                 <ShieldCheck size={19} strokeWidth={1.5} />
                 <span>
@@ -825,6 +825,13 @@ export default function PrintEditor() {
                       : "A print, not a screenshot"}
                   </strong>
                   <span>Made at the size you choose.</span>
+                </span>
+              </div>
+              <div>
+                <Palette size={19} strokeWidth={1.5} />
+                <span>
+                  <strong>Your route, your style</strong>
+                  <span>Choose the layout, colors, and details.</span>
                 </span>
               </div>
             </div>
