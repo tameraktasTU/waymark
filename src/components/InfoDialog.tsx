@@ -15,15 +15,15 @@ export default function InfoDialog({
         if (event.target === event.currentTarget) dialogRef.current?.close();
       }}
     >
-      <div className="dialog-content relative p-[34px] small:px-5 small:py-[25px]">
+      <div className="dialog-content relative p-8.5 small:px-5 small:py-6.25">
         <button
-          className="dialog-close absolute top-[17px] right-[17px] border-0 bg-transparent p-[5px] text-[#789382]"
+          className="dialog-close absolute top-4.25 right-4.25 border-0 bg-transparent p-1.25 text-[#789382]"
           aria-label="Close information"
           onClick={() => dialogRef.current?.close()}
         >
           <X size={20} />
         </button>
-        <span className="dialog-icon grid size-[46px] place-items-center rounded-[11px] bg-[#edf4ef] text-[#43856b]">
+        <span className="dialog-icon grid size-11.5 place-items-center rounded-[11px] bg-[#edf4ef] text-[#43856b]">
           <Route size={24} />
         </span>
         <h2
@@ -35,7 +35,7 @@ export default function InfoDialog({
         <p className="dialog-intro text-control leading-[1.6] text-muted">
           A few simple steps from GPS points to a personal keepsake.
         </p>
-        <ol className="how-steps my-6 pl-5 [&>li]:my-[17px] [&>li]:pl-1.5 [&>li]:text-[#518066] [&_strong]:text-control [&_strong]:font-semibold [&_strong]:text-[#415f4d] [&_p]:mt-[5px] [&_p]:text-control [&_p]:leading-[1.7] [&_p]:text-muted">
+        <ol className="how-steps my-6 pl-5 [&>li]:my-4.25 [&>li]:pl-1.5 [&>li]:text-[#518066] [&_strong]:text-control [&_strong]:font-semibold [&_strong]:text-[#415f4d] [&_p]:mt-1.25 [&_p]:text-control [&_p]:leading-[1.7] [&_p]:text-muted">
           <li>
             <strong>Bring your route</strong>
             <p>
@@ -60,13 +60,13 @@ export default function InfoDialog({
             </p>
           </li>
         </ol>
-        <div className="dialog-privacy flex gap-3 rounded-lg bg-[#f2f7f3] p-[15px]">
+        <div className="dialog-privacy flex gap-3 rounded-lg bg-[#f2f7f3] p-3.75">
           <ShieldCheck size={20} className="text-[#518167]" />
           <div>
             <strong className="text-control font-medium">
               Your route stays on your device.
             </strong>
-            <p className="mt-[7px] text-label leading-[1.7] text-muted">
+            <p className="mt-1.75 text-label leading-[1.7] text-muted">
               GPX files and poster settings are processed in this browser. There
               are no accounts, analytics, or server uploads. Map tiles come from
               OpenFreeMap, so that provider receives requests for the map area

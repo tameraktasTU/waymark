@@ -11,7 +11,7 @@ export function PrimaryButton({
   return (
     <button
       {...props}
-      className={`primary-button flex items-center justify-center gap-2.5 rounded-[7px] border-0 bg-evergreen font-medium text-white enabled:hover:bg-[#10574e] ${compact ? "px-[13px] py-2.5 text-label" : "px-5 py-3 text-[.9375rem] mobile:py-[13px]"} ${className}`}
+      className={`primary-button flex items-center justify-center gap-2.5 rounded-[7px] border-0 bg-evergreen font-medium text-white enabled:hover:bg-[#10574e] ${compact ? "px-3.25 py-2.5 text-label" : "px-5 py-3 text-[.9375rem] mobile:py-3.25"} ${className}`}
     />
   );
 }
@@ -25,7 +25,7 @@ export function TextButton({
   return (
     <button
       {...props}
-      className={`text-button inline-flex items-center gap-[7px] border-0 bg-transparent p-0 font-medium hover:text-evergreen ${caption ? "text-caption" : "text-control"} ${muted ? "text-muted" : "text-[#61726c]"} ${className}`}
+      className={`text-button inline-flex items-center gap-1.75 border-0 bg-transparent p-0 font-medium hover:text-evergreen ${caption ? "text-caption" : "text-control"} ${muted ? "text-muted" : "text-[#61726c]"} ${className}`}
     />
   );
 }
@@ -34,7 +34,7 @@ export function StepButton(props: ButtonProps) {
   return (
     <button
       {...props}
-      className="next-step flex min-h-10 items-center justify-center gap-[9px] rounded-md border border-[#dee9e3] bg-[#f8fbf9] p-[9px] text-label font-medium text-[#397963] hover:bg-[#eef6f1]"
+      className="next-step flex min-h-10 items-center justify-center gap-2.25 rounded-md border border-[#dee9e3] bg-[#f8fbf9] p-2.25 text-label font-medium text-[#397963] hover:bg-[#eef6f1]"
     />
   );
 }
@@ -131,7 +131,7 @@ export function SelectControl({
     >
       <select
         {...props}
-        className={`min-w-0 w-full appearance-none rounded-md border border-[#dfe6e2] bg-white pr-[30px] pl-3 py-2 text-[#43584b] ${compact ? "text-control" : "text-body"}`}
+        className={`min-w-0 w-full appearance-none rounded-md border border-[#dfe6e2] bg-white pr-7.5 pl-3 py-2 text-[#43584b] ${compact ? "text-control" : "text-body"}`}
       />
       <ChevronDown
         size={compact ? 14 : 15}
@@ -156,7 +156,7 @@ export function SegmentedControl<Value extends string>({
 }) {
   return (
     <div
-      className={`segmented-control flex gap-0.5 rounded-md bg-[#f0f4f2] p-[3px] ${className}`}
+      className={`segmented-control flex gap-0.5 rounded-md bg-[#f0f4f2] p-0.75 ${className}`}
       aria-label={label}
     >
       {options.map((option) => (
@@ -203,10 +203,10 @@ export function Toggle({
         className="sr-only peer"
       />
       <span
-        className="toggle-track block h-[17px] w-[29px] shrink-0 rounded-[20px] bg-[#dce4df] p-0.5 peer-checked:bg-[#508f73] peer-checked:[&>span]:translate-x-3 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-700 peer-focus-visible:ring-offset-2"
+        className="toggle-track block h-4.25 w-7.25 shrink-0 rounded-[20px] bg-[#dce4df] p-0.5 peer-checked:bg-[#508f73] peer-checked:[&>span]:translate-x-3 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-700 peer-focus-visible:ring-offset-2"
         aria-hidden="true"
       >
-        <span className="block size-[13px] rounded-full bg-white transition-transform duration-180" />
+        <span className="block size-3.25 rounded-full bg-white transition-transform duration-180" />
       </span>
     </label>
   );

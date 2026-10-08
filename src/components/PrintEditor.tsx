@@ -258,16 +258,16 @@ export default function PrintEditor() {
   return (
     <>
       <a
-        className="skip-link absolute top-2 left-3 z-100 -translate-y-[160%] rounded-lg border border-evergreen bg-white px-4 py-2.5 focus:translate-y-0"
+        className="skip-link absolute top-2 left-3 z-100 translate-y-[-160%] rounded-lg border border-evergreen bg-white px-4 py-2.5 focus:translate-y-0"
         href="#print-studio"
       >
         Skip to the print studio
       </a>
       <header className="site-header border-b border-[#e6ebeb] bg-white">
-        <div className="header-inner mx-auto flex min-h-[100px] max-w-[1280px] items-center justify-between gap-6 px-10 py-4 wide:max-w-[1380px] tablet:px-[25px] mobile:gap-4 mobile:px-5 narrow:flex-col narrow:items-stretch narrow:gap-3 small:px-3.5">
+        <div className="header-inner mx-auto flex min-h-25 max-w-7xl items-center justify-between gap-6 px-10 py-4 wide:max-w-345 tablet:px-6.25 mobile:gap-4 mobile:px-5 narrow:flex-col narrow:items-stretch narrow:gap-3 small:px-3.5">
           <a
             href="/"
-            className="wordmark flex shrink-0 items-center gap-2.5 font-display text-[30px] font-semibold tracking-[-1.4px] no-underline mobile:gap-2 mobile:text-[27px] mobile:[&>img]:size-[30px] small:text-[25px] small:[&>img]:size-7"
+            className="wordmark flex shrink-0 items-center gap-2.5 font-display text-[30px] font-semibold tracking-[-1.4px] no-underline mobile:gap-2 mobile:text-[27px] mobile:[&>img]:size-7.5 small:text-[25px] small:[&>img]:size-7"
             aria-label="Waymark home"
           >
             <img src="/favicon.svg" width="34" height="34" alt="" />
@@ -289,14 +289,14 @@ export default function PrintEditor() {
         </div>
       </header>
 
-      <main className="main-shell mx-auto max-w-[1280px] px-10 pt-6 wide:max-w-[1380px] tablet:px-[25px] mobile:px-5 mobile:pt-5 small:px-3.5">
+      <main className="main-shell mx-auto max-w-7xl px-10 pt-6 wide:max-w-345 tablet:px-6.25 mobile:px-5 mobile:pt-5 small:px-3.5">
         <section
           id="print-studio"
-          className="studio-grid grid grid-cols-[340px_minmax(0,1fr)] items-start gap-[25px] wide:grid-cols-[365px_minmax(0,1fr)] wide:gap-8 tablet:grid-cols-[310px_minmax(0,1fr)] tablet:gap-[18px] mobile:flex mobile:flex-col"
+          className="studio-grid grid grid-cols-[340px_minmax(0,1fr)] items-start gap-6.25 wide:grid-cols-[365px_minmax(0,1fr)] wide:gap-8 tablet:grid-cols-[310px_minmax(0,1fr)] tablet:gap-4.5 mobile:flex mobile:flex-col"
           aria-label="Print studio"
           aria-busy={exporting}
         >
-          <div className="mobile-upload-bar hidden mobile:order-[-2] mobile:flex mobile:w-full mobile:flex-wrap mobile:items-center mobile:justify-between mobile:gap-2.5 mobile:rounded-lg mobile:border mobile:border-[#e0e7e2] mobile:bg-white mobile:px-3 mobile:py-2.5 [&>div]:flex [&>div]:items-center [&>div]:gap-[7px] [&>div]:text-label [&>div]:text-[#517160]">
+          <div className="mobile-upload-bar hidden mobile:-order-2 mobile:flex mobile:w-full mobile:flex-wrap mobile:items-center mobile:justify-between mobile:gap-2.5 mobile:rounded-lg mobile:border mobile:border-[#e0e7e2] mobile:bg-white mobile:px-3 mobile:py-2.5 [&>div]:flex [&>div]:items-center [&>div]:gap-1.75 [&>div]:text-label [&>div]:text-[#517160]">
             <div>
               <FileUp size={18} />
               <span>
@@ -313,7 +313,7 @@ export default function PrintEditor() {
           </div>
           <aside className="editor-panel min-w-0 overflow-hidden rounded-xl border border-[#e1e7e7] bg-white mobile:w-full">
             <nav
-              className="editor-tabs grid grid-cols-3 border-b border-[#e7ecea] px-[15px]"
+              className="editor-tabs grid grid-cols-3 border-b border-[#e7ecea] px-3.75"
               aria-label="Editor sections"
             >
               {(
@@ -325,7 +325,7 @@ export default function PrintEditor() {
               ).map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  className="editor-tab flex min-h-11 items-center justify-center gap-[7px] border-0 border-b-2 border-transparent bg-white pt-[13px] pb-[11px] text-control font-medium text-muted hover:text-evergreen aria-pressed:border-evergreen aria-pressed:text-evergreen"
+                  className="editor-tab flex min-h-11 items-center justify-center gap-1.75 border-0 border-b-2 border-transparent bg-white pt-3.25 pb-2.75 text-control font-medium text-muted hover:text-evergreen aria-pressed:border-evergreen aria-pressed:text-evergreen"
                   aria-pressed={activeTab === id}
                   onClick={() => setActiveTab(id)}
                 >
@@ -336,21 +336,21 @@ export default function PrintEditor() {
             </nav>
 
             {error && errorSource === "import" && (
-              <div className="editor-error px-[18px] pt-4">
+              <div className="editor-error px-4.5 pt-4">
                 <ErrorNotice onDismiss={() => setError("")}>
                   {error}
                 </ErrorNotice>
               </div>
             )}
 
-            <div className="editor-body px-6 py-4 tablet:px-5 mobile:px-[22px] small:px-[18px]">
+            <div className="editor-body px-6 py-4 tablet:px-5 mobile:px-5.5 small:px-4.5">
               {activeTab === "route" && (
                 <div className="tab-content flex flex-col gap-3">
                   <SectionHeading title="Start with your story">
                     Bring the route. We’ll make it a keepsake.
                   </SectionHeading>
                   <div
-                    className="upload-zone flex flex-col items-center rounded-[9px] border-[1.5px] border-dashed border-[#b8d1c8] bg-[#f7faf8] px-[15px] pt-4 pb-3.5 transition-colors duration-150 data-[dragging=true]:border-evergreen data-[dragging=true]:bg-[#e4f3e9] [&>p]:mt-2 [&>p]:mb-1 [&>p]:text-label [&>p]:text-muted"
+                    className="upload-zone flex flex-col items-center rounded-[9px] border-[1.5px] border-dashed border-[#b8d1c8] bg-[#f7faf8] px-3.75 pt-4 pb-3.5 transition-colors duration-150 data-[dragging=true]:border-evergreen data-[dragging=true]:bg-[#e4f3e9] [&>p]:mt-2 [&>p]:mb-1 [&>p]:text-label [&>p]:text-muted"
                     data-dragging={dragging}
                     onDragOver={(event) => {
                       event.preventDefault();
@@ -386,11 +386,11 @@ export default function PrintEditor() {
                       .gpx files, up to 20 MB
                     </span>
                   </div>
-                  <div className="local-note -mt-[7px] flex items-center justify-center gap-1.5 text-caption text-muted">
+                  <div className="local-note -mt-1.75 flex items-center justify-center gap-1.5 text-caption text-muted">
                     <ShieldCheck size={14} />
                     <span>Your file is read locally in your browser.</span>
                   </div>
-                  <div className="loaded-route flex items-center gap-2.5 rounded-[7px] bg-[#f5f8f7] p-[11px]">
+                  <div className="loaded-route flex items-center gap-2.5 rounded-[7px] bg-[#f5f8f7] p-2.75">
                     <div className="loaded-route-icon flex text-[#4b7a67]">
                       <FileCheck2 size={20} />
                     </div>
@@ -404,7 +404,7 @@ export default function PrintEditor() {
                     </div>
                     <Check size={16} className="loaded-check text-[#3f8771]" />
                   </div>
-                  <div className="route-summary -mt-1 grid grid-cols-2 [&>div]:grid [&>div]:grid-cols-[18px_1fr] [&>div]:gap-x-[5px] [&>div]:gap-y-1 [&>div]:py-[7px] [&>div+div]:border-l [&>div+div]:border-[#e3e9e5] [&>div+div]:pl-5 [&_svg]:self-center [&_svg]:text-[#81988c] [&_strong]:text-[14px] [&_strong]:font-medium [&_span]:col-start-2 [&_span]:text-caption [&_span]:text-muted">
+                  <div className="route-summary -mt-1 grid grid-cols-2 [&>div]:grid [&>div]:grid-cols-[18px_1fr] [&>div]:gap-x-1.25 [&>div]:gap-y-1 [&>div]:py-1.75 [&>div+div]:border-l [&>div+div]:border-[#e3e9e5] [&>div+div]:pl-5 [&_svg]:self-center [&_svg]:text-[#81988c] [&_strong]:text-control [&_strong]:font-medium [&_span]:col-start-2 [&_span]:text-caption [&_span]:text-muted">
                     <div>
                       <Route size={16} />
                       <strong>
@@ -619,13 +619,13 @@ export default function PrintEditor() {
               )}
             </div>
 
-            <div className="download-panel border-t border-[#e7ede8] bg-[#fcfdfc] px-6 pt-4 pb-3.5 tablet:px-5 mobile:px-[22px] small:px-[18px]">
+            <div className="download-panel border-t border-[#e7ede8] bg-[#fcfdfc] px-6 pt-4 pb-3.5 tablet:px-5 mobile:px-5.5 small:px-4.5">
               <div className="download-heading mb-3 flex items-center gap-2 [&>svg]:text-[#5c8871] [&>h2]:m-0 [&>h2]:font-display [&>h2]:text-[17px] [&>h2]:font-medium">
                 <Download size={18} />
                 <h2>{sharing ? "Ready to share" : "Ready for your wall"}</h2>
               </div>
               {!sharing && (
-                <div className="export-options grid grid-cols-[1fr_106px] items-center gap-[9px]">
+                <div className="export-options grid grid-cols-[1fr_106px] items-center gap-2.25">
                   <SegmentedControl<ExportFormat>
                     className="format-control"
                     label="Download format"
@@ -653,7 +653,7 @@ export default function PrintEditor() {
                   </SelectControl>
                 </div>
               )}
-              <p className="export-dimensions mt-2 mb-2.5 flex flex-wrap justify-between gap-[7px] text-control text-muted">
+              <p className="export-dimensions mt-2 mb-2.5 flex flex-wrap justify-between gap-1.75 text-control text-muted">
                 <span>
                   {sharing
                     ? `${shareSize.name} · PNG`
@@ -714,7 +714,7 @@ export default function PrintEditor() {
             </div>
           </aside>
 
-          <div className="preview-column @container sticky top-5 min-w-0 mobile:static mobile:order-[-1] mobile:w-full">
+          <div className="preview-column @container sticky top-5 min-w-0 mobile:static mobile:-order-1 mobile:w-full">
             <div className="preview-panel overflow-hidden rounded-xl border border-[#e0e6e6] bg-white">
               <FormatControls
                 settings={settings}
@@ -724,7 +724,7 @@ export default function PrintEditor() {
                 }}
               />
               <div
-                className="preview-stage group relative flex min-h-[542px] flex-col items-center justify-center bg-studio px-11 pt-16 pb-[15px] wide:min-h-[590px] tablet:min-h-[510px] tablet:px-[25px] mobile:min-h-0 mobile:px-[38px] mobile:pb-4 small:px-[25px] small:pb-3.5"
+                className="preview-stage group relative flex min-h-135.5 flex-col items-center justify-center bg-studio px-11 pt-16 pb-3.75 wide:min-h-147.5 tablet:min-h-127.5 tablet:px-6.25 mobile:min-h-0 mobile:px-9.5 mobile:pb-4 small:px-6.25 small:pb-3.5"
                 data-orientation={
                   (
                     sharing
@@ -746,7 +746,7 @@ export default function PrintEditor() {
                   <span>Fit route</span>
                 </button>
                 <div
-                  className="poster-holder w-[348px] max-w-full shadow-[0_12px_22px_#30474a13,0_2px_3px_#30474a15] wide:w-[392px] mobile:w-[280px] group-data-[orientation=landscape]:w-[490px] mobile:group-data-[orientation=landscape]:w-[420px]"
+                  className="poster-holder w-87 max-w-full shadow-[0_12px_22px_#30474a13,0_2px_3px_#30474a15] wide:w-98 mobile:w-70 group-data-[orientation=landscape]:w-122.5 mobile:group-data-[orientation=landscape]:w-105"
                   data-testid="poster-preview"
                 >
                   <PosterPreview
@@ -760,7 +760,7 @@ export default function PrintEditor() {
                 </div>
                 {mapStatus === "error" && (
                   <div
-                    className="map-error-note mt-3.5 flex flex-col gap-2 rounded-md bg-[#fff3ef] px-3 py-2.5 text-center text-label text-[#964b3a] [&>button]:rounded-sm [&>button]:border [&>button]:border-[#e6c7bb] [&>button]:bg-white [&>button]:p-[7px] [&>button]:text-inherit"
+                    className="map-error-note mt-3.5 flex flex-col gap-2 rounded-md bg-[#fff3ef] px-3 py-2.5 text-center text-label text-[#964b3a] [&>button]:rounded-sm [&>button]:border [&>button]:border-[#e6c7bb] [&>button]:bg-white [&>button]:p-1.75 [&>button]:text-inherit"
                     role="status"
                   >
                     <span>
@@ -785,7 +785,7 @@ export default function PrintEditor() {
                   </span>
                 </div>
               </div>
-              <div className="preview-footnote grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-[23px] py-3.5 font-sans text-caption font-normal text-muted tablet:px-[17px] mobile:py-[11px] narrow:grid-cols-2 small:gap-x-3 small:px-[13px]">
+              <div className="preview-footnote grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-5.75 py-3.5 font-sans text-caption font-normal text-muted tablet:px-4.25 mobile:py-2.75 narrow:grid-cols-2 small:gap-x-3 small:px-3.25">
                 <span className="flex items-center gap-1.5">
                   <Layers3 size={14} />
                   {sharing
@@ -808,7 +808,7 @@ export default function PrintEditor() {
               </div>
             </div>
 
-            <div className="studio-promises grid grid-cols-1 gap-6 px-5 pt-[25px] pb-3 @[560px]:flex @[560px]:justify-between tablet:gap-[13px] tablet:px-2.5 mobile:pt-[17px] mobile:pb-0 small:gap-3 small:px-[3px] [&>div]:flex [&>div]:min-w-0 [&>div]:items-start [&>div]:gap-2.5 small:[&>div]:gap-[7px] [&>div>svg]:mt-px [&>div>svg]:text-[#799888] small:[&>div>svg]:w-4 [&_strong]:block [&_strong]:text-caption [&_strong]:font-medium [&_strong]:text-muted [&_span>span]:mt-1.5 [&_span>span]:block [&_span>span]:text-caption [&_span>span]:leading-[1.6] [&_span>span]:text-muted">
+            <div className="studio-promises grid grid-cols-1 gap-6 px-5 pt-6.25 pb-3 @[560px]:flex @[560px]:justify-between tablet:gap-3.25 tablet:px-2.5 mobile:pt-4.25 mobile:pb-0 small:gap-3 small:px-0.75 [&>div]:flex [&>div]:min-w-0 [&>div]:items-start [&>div]:gap-2.5 small:[&>div]:gap-1.75 [&>div>svg]:mt-px [&>div>svg]:text-[#799888] small:[&>div>svg]:w-4 [&_strong]:block [&_strong]:text-caption [&_strong]:font-medium [&_strong]:text-muted [&_span>span]:mt-1.5 [&_span>span]:block [&_span>span]:text-caption [&_span>span]:leading-[1.6] [&_span>span]:text-muted">
               <div>
                 <ShieldCheck size={19} strokeWidth={1.5} />
                 <span>
@@ -849,7 +849,7 @@ export default function PrintEditor() {
         />
       </main>
 
-      <footer className="site-footer mx-auto mt-[30px] flex max-w-[1200px] justify-between gap-[15px] border-t border-[#e8eded] pt-6 pb-7 text-caption text-muted wide:max-w-[1300px] tablet:mx-[25px] mobile:mx-5 mobile:mt-[25px] mobile:pt-5 mobile:pb-[23px] small:mx-3.5 small:flex-col small:gap-2.5">
+      <footer className="site-footer mx-auto mt-7.5 flex max-w-300 justify-between gap-3.75 border-t border-[#e8eded] pt-6 pb-7 text-caption text-muted wide:max-w-325 tablet:mx-6.25 mobile:mx-5 mobile:mt-6.25 mobile:pt-5 mobile:pb-5.75 small:mx-3.5 small:flex-col small:gap-2.5">
         <span>For the journeys that stay with you.</span>
         <TextButton
           caption

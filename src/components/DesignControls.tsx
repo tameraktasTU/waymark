@@ -41,7 +41,7 @@ export function TemplatePicker({
 }) {
   return (
     <FieldGroup label="Poster layout">
-      <div className="template-grid grid grid-cols-3 gap-[9px]">
+      <div className="template-grid grid grid-cols-3 gap-2.25">
         {TEMPLATES.map((template) => (
           <button
             key={template.id}
@@ -51,7 +51,7 @@ export function TemplatePicker({
             aria-label={`${template.name} template`}
           >
             <span
-              className={`template-thumbnail relative flex flex-col items-center gap-[5px] rounded-md border border-[#dce3df] bg-[#f3f5f4] group-aria-pressed:border-[#5a9780] group-aria-pressed:shadow-[0_0_0_1px_#5a9780] ${template.thumbnailClasses}`}
+              className={`template-thumbnail relative flex flex-col items-center gap-1.25 rounded-md border border-[#dce3df] bg-[#f3f5f4] group-aria-pressed:border-[#5a9780] group-aria-pressed:shadow-[0_0_0_1px_#5a9780] ${template.thumbnailClasses}`}
               aria-hidden="true"
             >
               <span className="thumbnail-map relative w-full overflow-hidden bg-[#dce5da]">
@@ -65,7 +65,7 @@ export function TemplatePicker({
                   />
                 </svg>
               </span>
-              <span className="thumbnail-text block h-[3px] w-[52%] bg-[#536c5b]" />
+              <span className="thumbnail-text block h-0.75 w-[52%] bg-[#536c5b]" />
               <span className="thumbnail-subtext block h-0.5 w-[34%] bg-[#b1bfb4]" />
               {value === template.id && (
                 <span className="template-check absolute top-1 right-1 z-2 grid size-3.5 place-items-center rounded-full bg-evergreen text-white">
@@ -76,7 +76,7 @@ export function TemplatePicker({
             <strong className="mt-1.5 block text-caption font-medium text-[#627268] group-aria-pressed:text-[#267156] mobile:text-control">
               {template.name}
             </strong>
-            <span className="template-description mt-[3px] block text-caption text-muted">
+            <span className="template-description mt-0.75 block text-caption text-muted">
               {template.description}
             </span>
           </button>
@@ -95,7 +95,7 @@ export function PalettePicker({
 }) {
   return (
     <FieldGroup label="Color palette">
-      <div className="palette-grid grid grid-cols-2 gap-x-[7px] gap-y-2.5">
+      <div className="palette-grid grid grid-cols-2 gap-x-1.75 gap-y-2.5">
         {PALETTES.map((palette) => (
           <button
             key={palette.id}
@@ -105,11 +105,11 @@ export function PalettePicker({
             aria-pressed={value === palette.id}
           >
             <span
-              className="palette-preview relative mb-[5px] block h-10 overflow-hidden rounded-md border-2 border-transparent group-aria-pressed:border-[#5a9780] mobile:h-[50px] small:h-[38px]"
+              className="palette-preview relative mb-1.25 block h-10 overflow-hidden rounded-md border-2 border-transparent group-aria-pressed:border-[#5a9780] mobile:h-12.5 small:h-9.5"
               style={{ background: palette.colors.land }}
             >
               <span
-                className="absolute -top-3 right-[5px] h-[150%] w-[22px] rotate-[23deg]"
+                className="absolute -top-3 right-1.25 h-[150%] w-5.5 rotate-23"
                 style={{ background: palette.colors.water }}
               />
               <svg
@@ -124,7 +124,7 @@ export function PalettePicker({
                 />
               </svg>
               {value === palette.id && (
-                <span className="palette-check absolute top-0.5 right-0.5 grid size-[13px] place-items-center rounded-full bg-white text-evergreen">
+                <span className="palette-check absolute top-0.5 right-0.5 grid size-3.25 place-items-center rounded-full bg-white text-evergreen">
                   <Check size={10} />
                 </span>
               )}
@@ -145,7 +145,7 @@ export function ColorFields({
   onChange: (key: keyof PosterColors, value: string) => void;
 }) {
   return (
-    <div className="color-grid grid grid-cols-3 gap-x-[7px] gap-y-2.5 small:grid-cols-2">
+    <div className="color-grid grid grid-cols-3 gap-x-1.75 gap-y-2.5 small:grid-cols-2">
       {(
         [
           { key: "route", name: "Route line" },
@@ -157,11 +157,11 @@ export function ColorFields({
         ] as const
       ).map(({ key, name }) => (
         <label
-          className="color-field flex items-center gap-[7px] text-caption text-muted mobile:text-label small:gap-[5px] small:text-caption"
+          className="color-field flex items-center gap-1.75 text-caption text-muted mobile:text-label small:gap-1.25 small:text-caption"
           key={key}
         >
           <span
-            className="color-swatch relative block size-[22px] shrink-0 overflow-hidden rounded-md border border-[#d1dbd4] focus-within:outline-2 focus-within:outline-evergreen focus-within:outline-offset-3 mobile:size-7"
+            className="color-swatch relative block size-5.5 shrink-0 overflow-hidden rounded-md border border-[#d1dbd4] focus-within:outline-2 focus-within:outline-evergreen focus-within:outline-offset-3 mobile:size-7"
             style={{ background: colors[key] }}
           >
             <input

@@ -32,7 +32,7 @@ export default function FormatControls({
   const image = shareDimensions(settings);
 
   return (
-    <div className="paper-toolbar flex flex-col gap-3 px-[23px] pt-4 pb-[18px] tablet:px-[17px] small:px-[13px]">
+    <div className="paper-toolbar flex flex-col gap-3 px-5.75 pt-4 pb-4.5 tablet:px-4.25 small:px-3.25">
       <div
         className="output-mode grid grid-cols-2 gap-1 border-b border-[#dfe8e2]"
         role="group"
