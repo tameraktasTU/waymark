@@ -16,7 +16,6 @@ import {
   Route,
   ShieldCheck,
   SlidersHorizontal,
-  Sparkles,
   Type,
 } from "lucide-react";
 import PosterPreview from "./PosterPreview";
@@ -714,7 +713,7 @@ export default function PrintEditor() {
             </div>
           </aside>
 
-          <div className="preview-column @container sticky top-5 min-w-0 mobile:static mobile:-order-1 mobile:w-full">
+          <div className="preview-column sticky top-5 min-w-0 mobile:static mobile:-order-1 mobile:w-full">
             <div className="preview-panel overflow-hidden rounded-xl border border-[#e0e6e6] bg-white">
               <FormatControls
                 settings={settings}
@@ -808,33 +807,6 @@ export default function PrintEditor() {
               </div>
             </div>
 
-            <div className="studio-promises grid grid-cols-1 gap-6 px-5 pt-6.25 pb-3 @[560px]:flex @[560px]:justify-between tablet:gap-3.25 tablet:px-2.5 mobile:pt-4.25 mobile:pb-0 small:gap-3 small:px-0.75 [&>div]:flex [&>div]:min-w-0 [&>div]:items-start [&>div]:gap-2.5 small:[&>div]:gap-1.75 [&>div>svg]:mt-px [&>div>svg]:text-[#799888] small:[&>div>svg]:w-4 [&_strong]:block [&_strong]:text-caption [&_strong]:font-medium [&_strong]:text-muted [&_span>span]:mt-1.5 [&_span>span]:block [&_span>span]:text-caption [&_span>span]:leading-[1.6] [&_span>span]:text-muted">
-              <div>
-                <ShieldCheck size={19} strokeWidth={1.5} />
-                <span>
-                  <strong>Yours, and only yours</strong>
-                  <span>Your GPX never leaves your device.</span>
-                </span>
-              </div>
-              <div>
-                <Sparkles size={19} strokeWidth={1.5} />
-                <span>
-                  <strong>
-                    {sharing
-                      ? "Made for your feed"
-                      : "A print, not a screenshot"}
-                  </strong>
-                  <span>Made at the size you choose.</span>
-                </span>
-              </div>
-              <div>
-                <Palette size={19} strokeWidth={1.5} />
-                <span>
-                  <strong>Your route, your style</strong>
-                  <span>Choose the layout, colors, and details.</span>
-                </span>
-              </div>
-            </div>
           </div>
         </section>
         <input
@@ -849,11 +821,24 @@ export default function PrintEditor() {
         />
       </main>
 
-      <footer className="site-footer mx-auto mt-7.5 flex max-w-300 justify-between gap-3.75 border-t border-[#e8eded] pt-6 pb-7 text-caption text-muted wide:max-w-325 tablet:mx-6.25 mobile:mx-5 mobile:mt-6.25 mobile:pt-5 mobile:pb-5.75 small:mx-3.5 small:flex-col small:gap-2.5">
+      <footer className="site-footer mx-auto mt-7.5 grid max-w-300 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3.75 border-t border-[#e8eded] pt-6 pb-7 text-caption text-muted wide:max-w-325 tablet:mx-6.25 mobile:mx-5 mobile:mt-6.25 mobile:pt-5 mobile:pb-5.75 narrow:grid-cols-1 narrow:gap-2.5 narrow:text-center small:mx-3.5">
         <span>For the journeys that stay with you.</span>
+        <span className="footer-credit flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
+          <span>Created by Tamer Aktas</span>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://github.com/tameraktasTU/waymark"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2 hover:text-evergreen"
+          >
+            GitHub
+          </a>
+        </span>
         <TextButton
           caption
           muted
+          className="justify-self-end narrow:justify-self-center"
           onClick={() => infoDialog.current?.showModal()}
         >
           Maps, privacy & printing
