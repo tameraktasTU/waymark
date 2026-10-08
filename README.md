@@ -2,7 +2,7 @@
 
 Turn a GPX route into a personal map print or an image to share. Waymark is a browser-based studio built with React, TypeScript, Vite, Tailwind CSS, MapLibre GL JS, and pdf-lib.
 
-![Waymark desktop studio with GPX import controls, a live Berlin route preview, paper sizes, and print export settings](docs/screenshots/studio-print.png)
+![Waymark desktop studio with GPX import controls, a live Lietzensee route preview, paper sizes, and print export settings](docs/screenshots/studio-print.png)
 
 ## Features
 
@@ -27,7 +27,7 @@ No account, API key, database, or application backend is required.
 **Compose on mobile.** The route upload and live preview sit above the editor controls on smaller screens.
 
 <p align="center">
-  <img src="docs/screenshots/studio-mobile.png" width="390" alt="Waymark at a 390-pixel mobile width, with GPX upload, print sizes, and the complete Berlin poster preview">
+  <img src="docs/screenshots/studio-mobile.png" width="390" alt="Waymark at a 390-pixel mobile width, with GPX upload, print sizes, and the complete Lietzensee poster preview">
 </p>
 
 ## Run locally
@@ -55,7 +55,7 @@ Open the local URL printed by Vite, usually `http://localhost:5173`.
 
 1. Choose or drop a GPX file up to 20 MB, or start with the example route.
 2. Use **Design** to choose the layout, palette, and map appearance.
-3. Use **Details** to edit the captions and statistics.
+3. Choose metric or imperial units before using **Details** to edit the captions and statistics. Switching units restores the calculated statistics.
 4. Adjust the composition by dragging and zooming the map.
 5. Choose **Print** or **Share** above the preview, select a size, and download.
 
@@ -80,7 +80,7 @@ Large exports depend on available browser memory and graphics limits. If an expo
 
 GPX files, edited settings, calculations, and exported artwork stay in your browser. The app has no accounts, analytics, or server uploads. Projects are held in memory and cleared on reload.
 
-An internet connection is needed for the map. OpenFreeMap receives requests for the region being viewed. Fonts are served with the website.
+Map previews and exports require JavaScript, WebGL, and an internet connection. OpenFreeMap receives requests for the region being viewed and provides the map label fonts. Interface and poster fonts are served with the website.
 
 GPX segments remain separate, so recording gaps do not add artificial connecting lines or distance. Statistics use elapsed time, including stops. Duration and pace require complete, ordered timestamps; missing values can be entered manually. Imported dates are initially formatted in UTC and can be edited.
 
@@ -88,15 +88,21 @@ The default example follows mapped park paths and eastern sidewalks around Lietz
 
 ## Tests
 
-Unit tests cover GPX parsing and statistics, poster geometry and text fitting, map styles, and PNG resolution metadata. GitHub Actions runs the TypeScript check, unit tests, and production build on pushes and pull requests.
+Unit tests cover GPX parsing and statistics, poster geometry and text fitting, map styles, and PNG resolution metadata.
 
-To run the browser checks, install Playwright's Chromium browser:
+For the browser checks, use an installed Edge or Chrome through `QA_BROWSER_CHANNEL` (see below), or install Playwright's Chromium browser:
 
 ```sh
 npx playwright install chromium
 ```
 
-Start `npm run dev` in one terminal, then run `npm run test:browser` in another. The tests require internet access for real map tiles.
+Start the development server on the address used by the browser checks:
+
+```sh
+npx vite --host 127.0.0.1 --port 5173 --strictPort
+```
+
+In another terminal, run `npm run test:browser`. The tests require internet access for real map tiles.
 
 Set `QA_BASE_URL` to use a different server URL; the default is `http://127.0.0.1:5173`. Set `QA_BROWSER_CHANNEL` to `msedge` or `chrome` to use an installed Microsoft Edge or Google Chrome instead of Playwright's Chromium.
 
@@ -104,13 +110,13 @@ The browser suite covers file validation and import, editing, map styling, respo
 
 ### Refresh README screenshots
 
-With the development server running and Playwright's Chromium installed, run:
+With the development server running as described above and a browser available through Playwright, run:
 
 ```sh
 npm run screenshots:readme
 ```
 
-The script captures the built-in Berlin example at desktop and mobile widths, using a 2× pixel density for sharp text. It waits for fonts and real map tiles, checks for map errors and horizontal overflow, and saves four PNGs in `docs/screenshots/`. Commit these images with the README. The script also supports `QA_BASE_URL` and `QA_BROWSER_CHANNEL` as described above.
+The script captures the built-in Lietzensee example at desktop and mobile widths, using a 2× pixel density for sharp text. It fits the complete route before each capture, waits for fonts and real map tiles, checks for runtime errors and horizontal overflow, and saves four PNGs in `docs/screenshots/`. Commit these images with the README. The script also supports `QA_BASE_URL` and `QA_BROWSER_CHANNEL` as described above.
 
 ## Project structure
 
@@ -122,11 +128,12 @@ The script captures the built-in Berlin example at desktop and mobile widths, us
 - `scripts/browser-qa.mjs`: browser integration checks.
 - `scripts/readme-screenshots.mjs`: reproducible README screenshot capture.
 - `docs/screenshots/`: committed screenshots displayed in this README.
-- `.github/workflows/ci.yml`: automated TypeScript, unit-test, and build checks.
 
 ## Deployment
 
-Run `npm run build` and deploy `dist/` to a static host. No server application is needed. For hosting under a subpath such as `/waymark/`, configure Vite's `base` to match that path before building.
+Run `npm run build` and deploy `dist/` to a static host. No server application is needed.
+
+The current configuration assumes hosting at the domain root. Hosting under a subpath such as `/waymark/` requires setting Vite's `base` before building and updating the root-relative home link and logo URL in `src/components/PrintEditor.tsx` to respect that base.
 
 ## Resources
 
