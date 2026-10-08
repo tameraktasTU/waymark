@@ -264,10 +264,10 @@ export default function PrintEditor() {
         Skip to the print studio
       </a>
       <header className="site-header border-b border-[#e6ebeb] bg-white">
-        <div className="header-inner mx-auto flex h-[82px] max-w-[1280px] items-center justify-between gap-[15px] px-10 wide:max-w-[1380px] tablet:px-[25px] mobile:h-[68px] mobile:px-5 small:gap-2 small:px-3.5">
+        <div className="header-inner mx-auto flex min-h-[100px] max-w-[1280px] items-center justify-between gap-6 px-10 py-4 wide:max-w-[1380px] tablet:px-[25px] mobile:gap-4 mobile:px-5 narrow:flex-col narrow:items-stretch narrow:gap-3 small:px-3.5">
           <a
             href="/"
-            className="wordmark flex items-center gap-2.5 font-display text-[30px] font-semibold tracking-[-1.4px] no-underline mobile:gap-2 mobile:text-[27px] mobile:[&>img]:size-[30px] small:text-[25px] small:[&>img]:size-7"
+            className="wordmark flex shrink-0 items-center gap-2.5 font-display text-[30px] font-semibold tracking-[-1.4px] no-underline mobile:gap-2 mobile:text-[27px] mobile:[&>img]:size-[30px] small:text-[25px] small:[&>img]:size-7"
             aria-label="Waymark home"
           >
             <img src="/favicon.svg" width="34" height="34" alt="" />
@@ -275,31 +275,10 @@ export default function PrintEditor() {
               waymark<span className="wordmark-dot text-[#e3694b]">.</span>
             </span>
           </a>
-          <div className="header-actions flex items-center gap-[30px] mobile:gap-[18px] small:gap-2">
-            <TextButton
-              className="how-button text-control mobile:min-h-9 small:gap-[5px] small:text-label small:[&>svg]:hidden"
-              onClick={() => infoDialog.current?.showModal()}
-            >
-              <Info size={16} />
-              How it works
-            </TextButton>
-            <span className="privacy-badge flex items-center gap-[7px] rounded-[7px] bg-[#edf6f1] px-[13px] py-[9px] text-control text-[#397364] mobile:bg-transparent mobile:p-2 mobile:[&>span]:hidden small:pr-0">
-              <ShieldCheck size={16} />
-              <span>Your GPX stays private</span>
-            </span>
-          </div>
-        </div>
-      </header>
-
-      <main className="main-shell mx-auto max-w-[1280px] px-10 wide:max-w-[1380px] tablet:px-[25px] mobile:px-5 small:px-3.5">
-        <section
-          className="studio-intro flex items-center justify-between gap-6 pt-6 pb-5 narrow:flex-col narrow:items-start narrow:gap-2.5 narrow:py-[18px]"
-          aria-labelledby="studio-title"
-        >
-          <div className="intro-copy min-w-0">
+          <div className="intro-copy min-w-0 text-right">
             <h1
               id="studio-title"
-              className="m-0 font-display text-[clamp(24px,2.2vw,30px)] leading-[1.2] font-medium tracking-[-.65px] text-balance"
+              className="m-0 font-display text-[clamp(18px,2vw,26px)] leading-[1.2] font-medium tracking-[-.65px] text-balance"
             >
               Every journey deserves a place on your wall.
             </h1>
@@ -307,12 +286,10 @@ export default function PrintEditor() {
               Turn your route into a print worth keeping.
             </p>
           </div>
-          <div className="intro-note flex shrink-0 items-center gap-[7px] rounded-md border border-[#dfe8e3] bg-[#edf4f0] px-[11px] py-2 text-label text-[#517160] narrow:border-0 narrow:bg-transparent narrow:p-0">
-            <Mountain size={17} strokeWidth={1.6} aria-hidden="true" />
-            <span>Runs, rides & hikes</span>
-          </div>
-        </section>
+        </div>
+      </header>
 
+      <main className="main-shell mx-auto max-w-[1280px] px-10 pt-6 wide:max-w-[1380px] tablet:px-[25px] mobile:px-5 mobile:pt-5 small:px-3.5">
         <section
           id="print-studio"
           className="studio-grid grid grid-cols-[340px_minmax(0,1fr)] items-start gap-[25px] wide:grid-cols-[365px_minmax(0,1fr)] wide:gap-8 tablet:grid-cols-[310px_minmax(0,1fr)] tablet:gap-[18px] mobile:flex mobile:flex-col"
@@ -808,8 +785,8 @@ export default function PrintEditor() {
                   </span>
                 </div>
               </div>
-              <div className="preview-footnote flex flex-wrap justify-between gap-[15px] px-[23px] py-3.5 text-caption text-muted tablet:px-[17px] mobile:py-[11px] small:gap-[5px] small:px-[13px] [&>span:first-child]:flex [&>span:first-child]:items-center [&>span:first-child]:gap-1.5 small:[&_svg]:w-3">
-                <span>
+              <div className="preview-footnote grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-[23px] py-3.5 font-sans text-caption font-normal text-muted tablet:px-[17px] mobile:py-[11px] narrow:grid-cols-2 small:gap-x-3 small:px-[13px]">
+                <span className="flex items-center gap-1.5">
                   <Layers3 size={14} />
                   {sharing
                     ? sharing && settings.shareSize === "story"
@@ -817,7 +794,17 @@ export default function PrintEditor() {
                       : "Sized for sharing. Ready for your feed."
                     : "Designed to look as good on paper."}
                 </span>
-                <span>{isDemo ? "Example route" : "Your route"}</span>
+                <h2 className="m-0 text-center narrow:col-span-2 narrow:row-start-1">
+                  Your Route
+                </h2>
+                <button
+                  type="button"
+                  className="how-button inline-flex min-h-9 items-center gap-1.5 justify-self-end border-0 bg-transparent p-0 text-left hover:text-evergreen"
+                  onClick={() => infoDialog.current?.showModal()}
+                >
+                  <Info size={14} />
+                  How it works
+                </button>
               </div>
             </div>
 

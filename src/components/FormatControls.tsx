@@ -100,7 +100,7 @@ export default function FormatControls({
               {image.ratio}
             </span>
           )}
-          <span className={`format-dimensions leading-normal whitespace-nowrap text-ink tabular-nums ${sharing ? "text-[18px] font-semibold" : "text-body font-medium"}`}>
+          <span className="format-dimensions text-[18px] leading-normal font-semibold whitespace-nowrap text-ink tabular-nums">
             {sharing
               ? `${image.width} × ${image.height} px`
               : `${paper.widthMm / 10} × ${paper.heightMm / 10} cm`}
