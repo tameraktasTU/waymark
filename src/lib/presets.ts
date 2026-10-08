@@ -50,7 +50,7 @@ export const DEFAULT_SETTINGS: PosterSettings = {
   template: 'classic', palette: 'alpine', colors: { ...PALETTES[0].colors },
   paperSize: '30x40', orientation: 'portrait',
   outputMode: 'print', shareSize: 'instagram-post',
-  title: 'A morning in Berlin', location: 'Tiergarten, Berlin', date: 'October 7, 2026',
+  title: 'A lap around Lietzensee', location: 'Lietzensee, Berlin', date: 'October 7, 2026',
   distance: '', duration: '', pace: '', paceLabel: 'Pace', units: 'metric',
   showStats: true, showDate: true, showMarkers: true, showMapLabels: true, routeWidth: 3,
 };

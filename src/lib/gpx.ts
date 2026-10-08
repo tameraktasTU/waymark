@@ -1,4 +1,5 @@
 import type { GpxTrack, TrackPoint, Units } from './types';
+import { LIETZENSEE_LOOP } from './demo-route';
 
 const EARTH_RADIUS_KM = 6371.0088;
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
@@ -169,24 +170,16 @@ export function formatTrackStats(track: GpxTrack, units: Units): { distance: str
   };
 }
 
-/** An explicitly labelled example along the paths of Berlin's Tiergarten. */
+/** A mapped Lietzensee loop with illustrative running times and elevations. */
 export function createDemoTrack(): GpxTrack {
-  const anchors: [number, number][] = [
-    [52.5163, 13.3777], [52.5165, 13.3716], [52.5182, 13.3685],
-    [52.5200, 13.3635], [52.5213, 13.3568], [52.5209, 13.3495],
-    [52.5193, 13.3440], [52.5175, 13.3360], [52.5150, 13.3330],
-    [52.5123, 13.3370], [52.5096, 13.3425], [52.5084, 13.3490],
-    [52.5102, 13.3548], [52.5126, 13.3580], [52.5114, 13.3628],
-    [52.5103, 13.3673], [52.5118, 13.3722], [52.5140, 13.3750],
-    [52.5163, 13.3777],
-  ];
+  const anchors = LIETZENSEE_LOOP;
   const points: TrackPoint[] = [];
   let distanceKm = 0;
   const start = Date.parse('2026-10-07T06:00:00Z');
   for (let index = 0; index < anchors.length - 1; index++) {
     const a = { lat: anchors[index][0], lon: anchors[index][1] };
     const b = { lat: anchors[index + 1][0], lon: anchors[index + 1][1] };
-    const count = Math.max(1, Math.ceil(distanceBetween(a, b) / 0.05));
+    const count = Math.max(1, Math.ceil(distanceBetween(a, b) / 0.01));
     for (let step = 0; step < count; step++) {
       const fraction = step / count;
       const point: TrackPoint = { lat: a.lat + (b.lat - a.lat) * fraction, lon: a.lon + (b.lon - a.lon) * fraction };
@@ -199,5 +192,5 @@ export function createDemoTrack(): GpxTrack {
   const final = { lat: anchors[anchors.length - 1][0], lon: anchors[anchors.length - 1][1] };
   distanceKm += distanceBetween(points[points.length - 1], final);
   points.push({ ...final, time: new Date(start + Math.round(distanceKm * 360 * 1000)).toISOString(), elevation: 34 + Math.sin(distanceKm * 2) * 3 });
-  return buildTrack('Tiergarten example run', [points]);
+  return buildTrack('Lietzensee example run', [points]);
 }

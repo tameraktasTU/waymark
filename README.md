@@ -6,7 +6,7 @@ Turn a GPX route into a personal map print or an image to share. Waymark is a br
 
 ## Features
 
-- Import a GPX file or try the built-in Berlin example.
+- Import a GPX file or try the built-in Lietzensee loop in Berlin.
 - Choose three poster layouts and four palettes, then customize colors, route thickness, markers, and map labels.
 - Edit the title, location, date, and statistics. Switch between metric and imperial units.
 - Drag and zoom the map to compose your artwork, or use **Fit route**.
@@ -83,6 +83,8 @@ GPX files, edited settings, calculations, and exported artwork stay in your brow
 An internet connection is needed for the map. OpenFreeMap receives requests for the region being viewed. Fonts are served with the website.
 
 GPX segments remain separate, so recording gaps do not add artificial connecting lines or distance. Statistics use elapsed time, including stops. Duration and pace require complete, ordered timestamps; missing values can be entered manually. Imported dates are initially formatted in UTC and can be edited.
+
+The default example follows mapped park paths and eastern sidewalks around Lietzensee. Its geometry is stored in `src/lib/demo-route.ts` and comes from [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) under ODbL 1.0. Running times and elevations are illustrative.
 
 ## Tests
 

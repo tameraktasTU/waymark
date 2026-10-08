@@ -90,7 +90,7 @@ export default function PrintEditor() {
   const { track, settings } = project;
   const [activeTab, setActiveTab] = useState<EditorTab>("route");
   const [isDemo, setIsDemo] = useState(true);
-  const [fileName, setFileName] = useState("Tiergarten example.gpx");
+  const [fileName, setFileName] = useState("Lietzensee example.gpx");
   const [dragging, setDragging] = useState(false);
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState("");
@@ -193,7 +193,7 @@ export default function PrintEditor() {
     ++importSequence.current;
     setProject(initialProject());
     setIsDemo(true);
-    setFileName("Tiergarten example.gpx");
+    setFileName("Lietzensee example.gpx");
     setError("");
     setImporting(false);
     setDownloaded(false);

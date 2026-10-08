@@ -100,13 +100,18 @@ describe('readGpxFile', () => {
 });
 
 describe('createDemoTrack', () => {
-  it('creates a labelled, timed, plausible Berlin example with a closed route', () => {
+  it('creates a labelled, timed Lietzensee lap covering both halves of the lake', () => {
     const result = createDemoTrack();
-    expect(result.name).toMatch(/example/i);
-    expect(result.distanceKm).toBeGreaterThan(5);
-    expect(result.distanceKm).toBeLessThan(9);
+    expect(result.name).toBe('Lietzensee example run');
+    expect(result.distanceKm).toBeGreaterThan(2);
+    expect(result.distanceKm).toBeLessThan(2.5);
+    expect(result.bounds[0][0]).toBeGreaterThan(13.285);
+    expect(result.bounds[1][0]).toBeLessThan(13.294);
+    expect(result.bounds[0][1]).toBeLessThan(52.504);
+    expect(result.bounds[1][1]).toBeGreaterThan(52.509);
     expect(result.pointCount).toBeGreaterThan(100);
-    expect(result.elapsedSeconds).toBeGreaterThan(1800);
+    expect(result.elapsedSeconds).toBeGreaterThan(600);
+    expect(result.elapsedSeconds).toBeLessThan(1000);
     expect(result.startTime).toMatch(/^2026-10-07/);
     expect(result.segments[0][0].lat).toBe(result.segments[0].at(-1)!.lat);
     expect(result.segments[0][0].lon).toBe(result.segments[0].at(-1)!.lon);
