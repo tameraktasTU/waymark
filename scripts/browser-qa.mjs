@@ -157,7 +157,7 @@ try {
   const timing = desktop.getByRole('group', { name: 'Time basis', exact: true });
   check('Moving time is selected by default', await timing.getByRole('button', { name: 'Moving', exact: true }).getAttribute('aria-pressed'), 'true');
   check('Moving duration excludes the pause and segment gap', await desktop.getByLabel('Duration', { exact: true }).inputValue(), '3:00');
-  check('Moving time is explicitly described as an estimate', await desktop.getByText(/Moving time is estimated from your GPX/).count(), 1);
+  check('Moving time is explicitly described as an estimate', await desktop.getByText('Estimated moving time excludes pauses and gaps.', { exact: false }).count(), 1);
   const movingPace = await desktop.getByLabel('Pace', { exact: true }).inputValue();
   await desktop.getByLabel('Date', { exact: true }).fill('A day to remember');
   await timing.getByRole('button', { name: 'Elapsed', exact: true }).click();

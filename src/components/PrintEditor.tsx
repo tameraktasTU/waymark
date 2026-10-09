@@ -624,7 +624,7 @@ export default function PrintEditor() {
                         {!timingAvailable
                           ? "This GPX has missing or invalid timestamps. Enter your own duration and pace or speed."
                           : settings.timeBasis === "moving"
-                            ? "Moving time is estimated from your GPX, excluding detected stops and gaps between segments."
+                            ? "Estimated moving time excludes pauses and gaps."
                             : "Elapsed time includes stops and recording gaps."}{" "}
                         Switching time basis restores the calculated duration
                         and pace or speed.
