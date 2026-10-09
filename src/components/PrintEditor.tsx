@@ -778,10 +778,7 @@ export default function PrintEditor() {
                 )}
                 <div className="preview-hint mt-5 flex items-center justify-center gap-1.5 text-center text-caption leading-normal text-muted">
                   <Map size={13} />
-                  <span>
-                    Drag the map to compose your {sharing ? "image" : "print"}.
-                    Scroll to zoom.
-                  </span>
+                  <span>Drag to frame. Scroll to zoom.</span>
                 </div>
               </div>
               <div className="preview-footnote grid grid-cols-2 items-center gap-x-4 gap-y-2 border-t border-[#e0e6e6] px-5.75 py-3.5 font-sans text-caption font-normal text-muted tablet:px-4.25 mobile:py-2.75 small:gap-x-3 small:px-3.25">
