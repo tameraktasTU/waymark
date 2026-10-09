@@ -1,8 +1,10 @@
-import type { GpxTrack, TrackPoint, Units } from './types';
+import type { GpxTrack, PosterSettings, TimeBasis, TrackPoint, Units } from './types';
 import { LIETZENSEE_LOOP } from './demo-route';
 
 const EARTH_RADIUS_KM = 6371.0088;
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
+const MOVING_SPEED_KMH = 1;
+const MOVING_WINDOW_SECONDS = 10;
 const DECIMAL_NUMBER = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
 function children(element: Element, name: string): Element[] {
@@ -55,6 +57,27 @@ function distanceBetween(a: TrackPoint, b: TrackPoint): number {
   const haversine = Math.sin(latitudeDifference / 2) ** 2 +
     Math.cos(a.lat * radians) * Math.cos(b.lat * radians) * Math.sin(longitudeDifference / 2) ** 2;
   return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(Math.min(1, Math.max(0, haversine))));
+}
+
+/** Estimate movement only after all timestamps have been validated. */
+function estimateMovingSeconds(segments: TrackPoint[][]): number {
+  let movingSeconds = 0;
+  for (const segment of segments) {
+    let windowStart = 0;
+    for (let index = 1; index < segment.length; index++) {
+      const start = segment[windowStart];
+      const end = segment[index];
+      const seconds = (Date.parse(end.time!) - Date.parse(start.time!)) / 1000;
+      // Compare displacement over a short window instead of adding every GPS
+      // wobble. Sparse recordings and the final partial window use their actual
+      // sample interval. Never bridge the gap between separate segments.
+      if (seconds < MOVING_WINDOW_SECONDS && index !== segment.length - 1) continue;
+      const speedKmh = distanceBetween(start, end) / seconds * 3600;
+      if (speedKmh >= MOVING_SPEED_KMH) movingSeconds += seconds;
+      windowStart = index;
+    }
+  }
+  return movingSeconds;
 }
 
 function trackBounds(points: TrackPoint[]): GpxTrack['bounds'] {
@@ -110,7 +133,10 @@ function buildTrack(name: string, segments: TrackPoint[][]): GpxTrack {
     pointCount: points.length,
     distanceKm,
     bounds: trackBounds(points),
-    ...(reliableTimes ? { startTime: points[0].time, endTime: points[points.length - 1].time, elapsedSeconds } : {}),
+    ...(reliableTimes ? {
+      startTime: points[0].time, endTime: points[points.length - 1].time,
+      elapsedSeconds, movingSeconds: estimateMovingSeconds(segments),
+    } : {}),
     ...(points.every((point) => point.elevation !== undefined) ? { elevationGainM } : {}),
   };
 }
@@ -157,16 +183,27 @@ function clockTime(seconds: number): string {
   return hours ? `${hours}:${String(minutes).padStart(2, '0')}:${String(remaining).padStart(2, '0')}` : `${minutes}:${String(remaining).padStart(2, '0')}`;
 }
 
-export function formatTrackStats(track: GpxTrack, units: Units): { distance: string; duration: string; pace: string; date: string } {
+export function formatTrackStats(
+  track: GpxTrack,
+  units: Units,
+  timeBasis: TimeBasis = 'elapsed',
+  paceLabel: PosterSettings['paceLabel'] = 'Pace',
+): { distance: string; duration: string; pace: string; date: string } {
   const distance = units === 'imperial' ? track.distanceKm / 1.609344 : track.distanceKm;
   const suffix = units === 'imperial' ? 'mi' : 'km';
-  const timed = track.elapsedSeconds !== undefined && Number.isFinite(track.elapsedSeconds) && track.elapsedSeconds > 0;
+  const seconds = timeBasis === 'moving' ? track.movingSeconds : track.elapsedSeconds;
+  const timed = seconds !== undefined && Number.isFinite(seconds) && seconds >= 0;
+  const hasPace = timed && seconds > 0 && distance > 0;
   const start = track.startTime ? new Date(track.startTime) : undefined;
   return {
     distance: `${distance.toFixed(2)} ${suffix}`,
-    duration: timed ? clockTime(track.elapsedSeconds!) : '—',
-    pace: timed && distance > 0 ? `${clockTime(track.elapsedSeconds! / distance)} /${suffix}` : '—',
-    date: timed && start && Number.isFinite(start.getTime()) ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(start) : '—',
+    duration: timed ? clockTime(seconds) : '—',
+    pace: hasPace
+      ? paceLabel === 'Avg. speed'
+        ? `${(distance / (seconds / 3600)).toFixed(1)} ${units === 'imperial' ? 'mph' : 'km/h'}`
+        : `${clockTime(seconds / distance)} /${suffix}`
+      : '—',
+    date: start && Number.isFinite(start.getTime()) ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(start) : '—',
   };
 }
 

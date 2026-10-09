@@ -13,6 +13,7 @@ export interface GpxTrack {
   startTime?: string;
   endTime?: string;
   elapsedSeconds?: number;
+  movingSeconds?: number;
   elevationGainM?: number;
   bounds: [[number, number], [number, number]];
 }
@@ -24,6 +25,7 @@ export type OutputMode = 'print' | 'share';
 export type ShareSizeId = 'instagram-post' | 'square' | 'story' | 'wide';
 export type Orientation = 'portrait' | 'landscape';
 export type Units = 'metric' | 'imperial';
+export type TimeBasis = 'moving' | 'elapsed';
 
 export interface PosterColors {
   background: string;
@@ -50,6 +52,7 @@ export interface PosterSettings {
   pace: string;
   paceLabel: 'Pace' | 'Avg. speed';
   units: Units;
+  timeBasis: TimeBasis;
   showStats: boolean;
   showDate: boolean;
   showMarkers: boolean;

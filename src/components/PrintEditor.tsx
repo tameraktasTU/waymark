@@ -42,35 +42,15 @@ import {
   shareDimensions,
 } from "../lib/presets";
 import type {
-  GpxTrack,
   MapView,
   PosterColors,
   PosterSettings,
+  TimeBasis,
   Units,
 } from "../lib/types";
 
 type EditorTab = "route" | "design" | "details";
 type ExportFormat = "pdf" | "png";
-
-function statsFor(
-  track: GpxTrack,
-  units: Units,
-  paceLabel: PosterSettings["paceLabel"],
-) {
-  const stats = formatTrackStats(track, units);
-  if (paceLabel === "Avg. speed") {
-    const speed =
-      track.elapsedSeconds && track.elapsedSeconds > 0
-        ? (track.distanceKm / (track.elapsedSeconds / 3600)) *
-          (units === "imperial" ? 0.6213711922 : 1)
-        : undefined;
-    stats.pace =
-      speed !== undefined
-        ? `${speed.toFixed(1)} ${units === "imperial" ? "mph" : "km/h"}`
-        : "—";
-  }
-  return stats;
-}
 
 function initialProject() {
   const track = createDemoTrack();
@@ -79,7 +59,7 @@ function initialProject() {
     settings: {
       ...DEFAULT_SETTINGS,
       colors: { ...DEFAULT_SETTINGS.colors },
-      ...statsFor(track, "metric", "Pace"),
+      ...formatTrackStats(track, "metric", DEFAULT_SETTINGS.timeBasis),
     },
   };
 }
@@ -115,6 +95,10 @@ export default function PrintEditor() {
   );
   const sharing = settings.outputMode === "share";
   const shareSize = shareDimensions(settings);
+  const timingAvailable =
+    (settings.timeBasis === "moving"
+      ? track.movingSeconds
+      : track.elapsedSeconds) !== undefined;
 
   const updateSettings = useCallback((patch: Partial<PosterSettings>) => {
     setProject((previous) => ({
@@ -148,9 +132,10 @@ export default function PrintEditor() {
         track: nextTrack,
         settings: {
           ...previous.settings,
-          ...statsFor(
+          ...formatTrackStats(
             nextTrack,
             previous.settings.units,
+            previous.settings.timeBasis,
             previous.settings.paceLabel,
           ),
           title: nextTrack.name || file.name.replace(/\.gpx$/i, ""),
@@ -201,9 +186,10 @@ export default function PrintEditor() {
   };
 
   const changeUnits = (units: Units) => {
-    const { distance, duration, pace } = statsFor(
+    const { distance, duration, pace } = formatTrackStats(
       track,
       units,
+      settings.timeBasis,
       settings.paceLabel,
     );
     updateSettings({ units, distance, duration, pace });
@@ -211,8 +197,23 @@ export default function PrintEditor() {
   const changeStatistic = (paceLabel: PosterSettings["paceLabel"]) =>
     updateSettings({
       paceLabel,
-      pace: statsFor(track, settings.units, paceLabel).pace,
+      pace: formatTrackStats(
+        track,
+        settings.units,
+        settings.timeBasis,
+        paceLabel,
+      ).pace,
     });
+  const changeTimeBasis = (timeBasis: TimeBasis) => {
+    if (timeBasis === settings.timeBasis) return;
+    const { duration, pace } = formatTrackStats(
+      track,
+      settings.units,
+      timeBasis,
+      settings.paceLabel,
+    );
+    updateSettings({ timeBasis, duration, pace });
+  };
   const viewChanged = useCallback((view: MapView) => {
     mapView.current = view;
   }, []);
@@ -561,6 +562,17 @@ export default function PrintEditor() {
                   </div>
                   {settings.showStats && (
                     <>
+                      <FieldGroup label="Time basis">
+                        <SegmentedControl<TimeBasis>
+                          label="Time basis"
+                          value={settings.timeBasis}
+                          options={[
+                            { value: "moving", label: "Moving" },
+                            { value: "elapsed", label: "Elapsed" },
+                          ]}
+                          onChange={changeTimeBasis}
+                        />
+                      </FieldGroup>
                       <TextField
                         label="Distance"
                         value={settings.distance}
@@ -609,8 +621,13 @@ export default function PrintEditor() {
                         maxLength={25}
                       />
                       <p className="small-help -mt-2 text-caption leading-[1.6] text-muted">
-                        Statistics use elapsed time, including stops. Missing
-                        timestamps? Add your own values here.
+                        {!timingAvailable
+                          ? "This GPX has missing or invalid timestamps. Enter your own duration and pace or speed."
+                          : settings.timeBasis === "moving"
+                            ? "Moving time is estimated from your GPX, excluding detected stops and gaps between segments."
+                            : "Elapsed time includes stops and recording gaps."}{" "}
+                        Switching time basis restores the calculated duration
+                        and pace or speed.
                       </p>
                     </>
                   )}

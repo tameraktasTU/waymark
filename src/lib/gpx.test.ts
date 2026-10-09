@@ -54,6 +54,80 @@ describe('parseGpx', () => {
     const result = parseGpx(track(point(0, 0, '2026-10-07T08:00:00+02:00') + point(0, 0.01, '2026-10-07T08:06:00+02:00')));
     expect(result.elapsedSeconds).toBe(360);
     expect(result.startTime).toBe('2026-10-07T06:00:00.000Z');
+    expect(result.movingSeconds).toBe(360);
+  });
+
+  it('excludes stationary pauses from moving time', () => {
+    const result = parseGpx(track(
+      point(0, 0, '2026-10-07T08:00:00Z') +
+      point(0, 0.001, '2026-10-07T08:01:00Z') +
+      point(0, 0.001, '2026-10-07T08:02:00Z') +
+      point(0, 0.002, '2026-10-07T08:03:00Z'),
+    ));
+    expect(result.elapsedSeconds).toBe(180);
+    expect(result.movingSeconds).toBe(120);
+  });
+
+  it('does not mistake small, frequent GPS drift while stopped for movement', () => {
+    const pausedAt = Date.parse('2026-10-07T08:01:00Z');
+    const drift = Array.from({ length: 30 }, (_, index) => point(
+      0, 0.001 + (index % 2 === 0 ? 0.000008 : 0),
+      new Date(pausedAt + (index + 1) * 1000).toISOString(),
+    )).join('');
+    const result = parseGpx(track(
+      point(0, 0, '2026-10-07T08:00:00Z') +
+      point(0, 0.001, '2026-10-07T08:01:00Z') + drift +
+      point(0, 0.002, '2026-10-07T08:02:30Z'),
+    ));
+    expect(result.elapsedSeconds).toBe(150);
+    expect(result.movingSeconds).toBe(120);
+  });
+
+  it('keeps sparse, steadily moving recordings usable', () => {
+    const result = parseGpx(track(
+      point(0, 0, '2026-10-07T08:00:00Z') +
+      point(0, 0.01, '2026-10-07T08:05:00Z') +
+      point(0, 0.02, '2026-10-07T08:10:00Z'),
+    ));
+    expect(result.movingSeconds).toBe(600);
+  });
+
+  it('excludes time between segments, including isolated points', () => {
+    const result = parseGpx(gpx(`<trk>
+      <trkseg>${point(0, 0, '2026-10-07T08:00:00Z')}${point(0, 0.001, '2026-10-07T08:01:00Z')}</trkseg>
+      <trkseg>${point(0, 0.002, '2026-10-07T08:10:00Z')}</trkseg>
+      <trkseg>${point(0, 0.003, '2026-10-07T08:21:00Z')}${point(0, 0.004, '2026-10-07T08:22:00Z')}</trkseg>
+    </trk>`));
+    expect(result.elapsedSeconds).toBe(1320);
+    expect(result.movingSeconds).toBe(120);
+  });
+
+  it('includes a final partial movement window without losing its seconds', () => {
+    const result = parseGpx(track(Array.from({ length: 14 }, (_, index) => point(
+      0, index * 0.00001,
+      new Date(Date.parse('2026-10-07T08:00:00Z') + index * 1000).toISOString(),
+    )).join('')));
+    expect(result.movingSeconds).toBe(13);
+    expect(result.movingSeconds).toBeLessThanOrEqual(result.elapsedSeconds!);
+  });
+
+  it('can report zero detected movement without substituting elapsed time', () => {
+    const result = parseGpx(track(
+      point(0, 0, '2026-10-07T08:00:00Z') +
+      point(0, 0.00001, '2026-10-07T08:02:00Z'),
+    ));
+    expect(result.movingSeconds).toBe(0);
+    expect(formatTrackStats(result, 'metric', 'moving')).toMatchObject({ duration: '0:00', pace: '—', date: '7 Oct 2026' });
+    expect(formatTrackStats(result, 'metric', 'moving', 'Avg. speed').pace).toBe('—');
+  });
+
+  it('estimates movement across the dateline using the short geographic distance', () => {
+    const result = parseGpx(track(
+      point(0, 179.9999, '2026-10-07T08:00:00Z') +
+      point(0, -179.9999, '2026-10-07T08:01:00Z'),
+    ));
+    expect(result.distanceKm).toBeLessThan(0.025);
+    expect(result.movingSeconds).toBe(60);
   });
 
   it.each([
@@ -67,8 +141,10 @@ describe('parseGpx', () => {
   ])('does not infer timing or date from incomplete or unreliable timestamps', (first, second) => {
     const result = parseGpx(track(point(0, 0, first) + point(0, 0.01, second)));
     expect(result.elapsedSeconds).toBeUndefined();
+    expect(result.movingSeconds).toBeUndefined();
     expect(result.startTime).toBeUndefined();
     expect(formatTrackStats(result, 'metric')).toMatchObject({ duration: '—', pace: '—', date: '—' });
+    expect(formatTrackStats(result, 'metric', 'moving')).toMatchObject({ duration: '—', pace: '—', date: '—' });
   });
 
   it('does not count elevation changes across recording gaps', () => {
@@ -82,6 +158,22 @@ describe('formatTrackStats', () => {
     const result = { ...createDemoTrack(), distanceKm: 10, elapsedSeconds: 3600 };
     expect(formatTrackStats(result, 'metric')).toEqual({ distance: '10.00 km', duration: '1:00:00', pace: '6:00 /km', date: '7 Oct 2026' });
     expect(formatTrackStats(result, 'imperial')).toEqual({ distance: '6.21 mi', duration: '1:00:00', pace: '9:39 /mi', date: '7 Oct 2026' });
+  });
+
+  it('uses the selected time for both pace and average speed in either unit system', () => {
+    const result = { ...createDemoTrack(), distanceKm: 10, elapsedSeconds: 3600, movingSeconds: 1800 };
+    expect(formatTrackStats(result, 'metric', 'moving')).toMatchObject({ duration: '30:00', pace: '3:00 /km' });
+    expect(formatTrackStats(result, 'imperial', 'moving')).toMatchObject({ duration: '30:00', pace: '4:50 /mi' });
+    expect(formatTrackStats(result, 'metric', 'moving', 'Avg. speed')).toMatchObject({ duration: '30:00', pace: '20.0 km/h' });
+    expect(formatTrackStats(result, 'imperial', 'moving', 'Avg. speed').pace).toBe('12.4 mph');
+    expect(formatTrackStats(result, 'metric', 'elapsed', 'Avg. speed')).toMatchObject({ duration: '1:00:00', pace: '10.0 km/h' });
+    expect(formatTrackStats(result, 'imperial', 'elapsed', 'Avg. speed').pace).toBe('6.2 mph');
+  });
+
+  it('does not silently fall back to elapsed time when moving time is unavailable', () => {
+    const result = { ...createDemoTrack(), movingSeconds: undefined };
+    expect(formatTrackStats(result, 'metric', 'moving')).toMatchObject({ duration: '—', pace: '—', date: '7 Oct 2026' });
+    expect(formatTrackStats(result, 'metric', 'elapsed').duration).not.toBe('—');
   });
 });
 
@@ -112,6 +204,7 @@ describe('createDemoTrack', () => {
     expect(result.pointCount).toBeGreaterThan(100);
     expect(result.elapsedSeconds).toBeGreaterThan(600);
     expect(result.elapsedSeconds).toBeLessThan(1000);
+    expect(result.movingSeconds).toBe(result.elapsedSeconds);
     expect(result.startTime).toMatch(/^2026-10-07/);
     expect(result.segments[0][0].lat).toBe(result.segments[0].at(-1)!.lat);
     expect(result.segments[0][0].lon).toBe(result.segments[0].at(-1)!.lon);

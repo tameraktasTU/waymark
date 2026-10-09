@@ -51,6 +51,6 @@ export const DEFAULT_SETTINGS: PosterSettings = {
   paperSize: '30x40', orientation: 'portrait',
   outputMode: 'print', shareSize: 'instagram-post',
   title: 'A lap around Lietzensee', location: 'Lietzensee, Berlin', date: 'October 7, 2026',
-  distance: '', duration: '', pace: '', paceLabel: 'Pace', units: 'metric',
+  distance: '', duration: '', pace: '', paceLabel: 'Pace', units: 'metric', timeBasis: 'moving',
   showStats: true, showDate: true, showMarkers: true, showMapLabels: true, routeWidth: 3,
 };

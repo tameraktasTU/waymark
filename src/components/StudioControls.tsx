@@ -157,6 +157,7 @@ export function SegmentedControl<Value extends string>({
   return (
     <div
       className={`segmented-control flex gap-0.5 rounded-md bg-[#f0f4f2] p-0.75 ${className}`}
+      role="group"
       aria-label={label}
     >
       {options.map((option) => (

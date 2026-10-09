@@ -55,7 +55,7 @@ Open the local URL printed by Vite, usually `http://localhost:5173`.
 
 1. Choose or drop a GPX file up to 20 MB, or start with the example route.
 2. Use **Design** to choose the layout, palette, and map appearance.
-3. Choose metric or imperial units before using **Details** to edit the captions and statistics. Switching units restores the calculated statistics.
+3. Choose metric or imperial units, then use **Details** to choose **Moving** or **Elapsed** time and edit the captions and statistics. Switching units restores the calculated statistics; switching time basis restores calculated duration and pace or speed.
 4. Adjust the composition by dragging and zooming the map.
 5. Choose **Print** or **Share** above the preview, select a size, and download.
 
@@ -82,7 +82,9 @@ GPX files, edited settings, calculations, and exported artwork stay in your brow
 
 Map previews and exports require JavaScript, WebGL, and an internet connection. OpenFreeMap receives requests for the region being viewed and provides the map label fonts. Interface and poster fonts are served with the website.
 
-GPX segments remain separate, so recording gaps do not add artificial connecting lines or distance. Statistics use elapsed time, including stops. Duration and pace require complete, ordered timestamps; missing values can be entered manually. Imported dates are initially formatted in UTC and can be edited.
+GPX segments remain separate, so recording gaps do not add artificial connecting lines or distance. **Moving** time is selected by default: duration, pace, and average speed use estimated time in motion. **Elapsed** uses the full time between the first and last point, including stops and recording gaps. Duration and pace require complete, ordered timestamps; missing values can be entered manually. Imported dates are initially formatted in UTC and can be edited.
+
+Moving time is estimated from displacement over roughly 10-second windows, counting windows at or above 1 km/h and excluding time between separate GPX segments. Sparse recordings use their actual sample intervals. GPS drift, slow movement, and pauses within a sample window can affect the result, so it may differ from the time shown by your recording app. A GPX without usable timestamps cannot supply a moving-time estimate. Manual duration and pace/speed entries remain independent.
 
 The default example follows mapped park paths and eastern sidewalks around Lietzensee. Its geometry is stored in `src/lib/demo-route.ts` and comes from [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) under ODbL 1.0. Running times and elevations are illustrative.
 
