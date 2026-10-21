@@ -133,9 +133,32 @@ The script captures the built-in Lietzensee example at desktop and mobile widths
 
 ## Deployment
 
+### GitHub Pages
+
+The intended production URL is **https://waymark.tameraktas.de**. The workflow in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) installs dependencies, checks TypeScript, runs unit tests, builds `dist/`, and deploys it to GitHub Pages on every push to `main`. Pull requests targeting `main` run the same checks and build without deploying. You can also run the workflow manually from the Actions tab on `main`.
+
+One-time setup:
+
+1. In [repository Settings → Pages](https://github.com/tameraktasTU/waymark/settings/pages), choose **GitHub Actions** under **Build and deployment → Source**.
+2. Set **Custom domain** to `waymark.tameraktas.de` and save.
+3. At your DNS provider for `tameraktas.de`, add this record:
+
+   | Type | Name / host | Target |
+   | --- | --- | --- |
+   | CNAME | `waymark` | `tameraktasTU.github.io` |
+
+   The target contains neither `https://` nor `/waymark`. Replace any existing conflicting records for the `waymark` subdomain.
+
+4. Commit and push the workflow to `main`. Check the **GitHub Pages** workflow in the Actions tab for the deployment result.
+5. Once GitHub's DNS check passes and the certificate is ready, enable **Enforce HTTPS** in Settings → Pages. DNS changes can take up to 24 hours to propagate.
+
+GitHub Actions deployments use the custom domain configured in the repository settings; a `CNAME` file in `public/` is ignored and is not required. No personal access token or additional deployment secret is needed; the workflow uses GitHub's built-in token. See GitHub's documentation for [custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and [custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+
+### Other static hosts
+
 Run `npm run build` and deploy `dist/` to a static host. No server application is needed.
 
-The current configuration assumes hosting at the domain root. Hosting under a subpath such as `/waymark/` requires setting Vite's `base` before building and updating the root-relative home link and logo URL in `src/components/PrintEditor.tsx` to respect that base.
+The current configuration assumes hosting at the domain root, as with `waymark.tameraktas.de`. Hosting under a subpath such as `tameraktasTU.github.io/waymark/` without the custom domain requires setting Vite's `base` before building and updating the root-relative home link and logo URL in `src/components/PrintEditor.tsx` to respect that base.
 
 ## Resources
 
