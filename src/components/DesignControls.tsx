@@ -9,28 +9,28 @@ const TEMPLATES: {
   description: string;
   thumbnailClasses: string;
 }[] = [
-  {
-    id: "classic",
-    name: "The classic",
-    description: "A map with a story",
-    thumbnailClasses:
-      "h-[90px] p-2 [&>.thumbnail-map]:h-[53px] mobile:h-[108px] mobile:p-[11px] mobile:[&>.thumbnail-map]:h-[70px] small:h-[88px] small:p-2 small:[&>.thumbnail-map]:h-[54px]",
-  },
-  {
-    id: "gallery",
-    name: "Gallery",
-    description: "Room to breathe",
-    thumbnailClasses:
-      "h-[90px] px-3 py-3 [&>.thumbnail-map]:h-[45px] mobile:h-[108px] mobile:px-4 mobile:py-[15px] mobile:[&>.thumbnail-map]:h-[64px] small:h-[88px] small:px-[11px] small:py-3 small:[&>.thumbnail-map]:h-[46px]",
-  },
-  {
-    id: "minimal",
-    name: "Minimal",
-    description: "Let the route speak",
-    thumbnailClasses:
-      "h-[90px] p-2 [&>.thumbnail-map]:h-[62px] [&>.thumbnail-text]:w-[65%] [&>.thumbnail-text]:self-start [&>.thumbnail-subtext]:hidden mobile:h-[108px] mobile:p-[11px] mobile:[&>.thumbnail-map]:h-[81px] small:h-[88px] small:p-2 small:[&>.thumbnail-map]:h-[62px]",
-  },
-];
+    {
+      id: "classic",
+      name: "The classic",
+      description: "A map with a story",
+      thumbnailClasses:
+        "h-[90px] p-2 [&>.thumbnail-map]:h-[53px] mobile:h-[108px] mobile:p-[11px] mobile:[&>.thumbnail-map]:h-[70px] small:h-[88px] small:p-2 small:[&>.thumbnail-map]:h-[54px]",
+    },
+    {
+      id: "gallery",
+      name: "Gallery",
+      description: "Room to breathe",
+      thumbnailClasses:
+        "h-[90px] px-3 py-3 [&>.thumbnail-map]:h-[45px] mobile:h-[108px] mobile:px-4 mobile:py-[15px] mobile:[&>.thumbnail-map]:h-[64px] small:h-[88px] small:px-[11px] small:py-3 small:[&>.thumbnail-map]:h-[46px]",
+    },
+    {
+      id: "minimal",
+      name: "Minimal",
+      description: "Let the route speak",
+      thumbnailClasses:
+        "h-[90px] p-2 [&>.thumbnail-map]:h-[62px] [&>.thumbnail-text]:w-[65%] [&>.thumbnail-text]:self-start [&>.thumbnail-subtext]:hidden mobile:h-[108px] mobile:p-[11px] mobile:[&>.thumbnail-map]:h-[81px] small:h-[88px] small:p-2 small:[&>.thumbnail-map]:h-[62px]",
+    },
+  ];
 
 export function TemplatePicker({
   value,

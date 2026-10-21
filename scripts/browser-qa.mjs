@@ -397,7 +397,7 @@ try {
 } catch (error) {
   report.failure = error.stack ?? String(error);
   const page = browser.contexts()[0]?.pages()[0];
-  if (page) await page.screenshot({ path: path.join(resultsDir, 'browser-qa-failure.png'), fullPage: true }).catch(() => {});
+  if (page) await page.screenshot({ path: path.join(resultsDir, 'browser-qa-failure.png'), fullPage: true }).catch(() => { });
   throw error;
 } finally {
   await writeFile(path.join(resultsDir, 'browser-qa-report.json'), JSON.stringify(report, null, 2));
